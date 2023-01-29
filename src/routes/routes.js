@@ -3,6 +3,7 @@ import Billing from "../components/Billing/Billing";
 import Login from "../components/Login/Login";
 import Signup from "../components/Signup/Signup";
 import Main from "../layout/Main";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +20,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/billing",
-        element: <Billing />,
+        element: (
+          <PrivateRoutes>
+            <Billing />
+          </PrivateRoutes>
+        ),
       },
     ],
   },

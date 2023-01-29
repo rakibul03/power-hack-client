@@ -1,8 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const {
     register,
     formState: { errors },
@@ -10,7 +14,6 @@ const Login = () => {
   } = useForm();
 
   const handleLogin = (data) => {
-    console.log(data);
     fetch("http://localhost:5000/login", {
       method: "POST",
       headers: {
@@ -20,7 +23,10 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          navigate(from, { replace: true });
+        }
       });
   };
 

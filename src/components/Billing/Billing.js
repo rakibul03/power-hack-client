@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import Modal from "../Modal/Modal";
+import BillingsUI from "./BillingsUI";
 
 const Billing = () => {
+  const [bill, setBill] = useState([]);
+  console.log(bill);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/billing-list", {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => setBill(data));
+  }, []);
   return (
     <div>
-      <h1>This is billing</h1>
-      <label htmlFor="my-modal" className="btn">
-        open modal
-      </label>
-      <Modal />
+      <BillingsUI />
     </div>
   );
 };
