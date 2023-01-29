@@ -2,16 +2,16 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  const handleLogin = (data) => {
+  const handleSignUp = (data) => {
     console.log(data);
-    fetch("http://localhost:5000/login", {
+    fetch("http://localhost:5000/registration", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -20,15 +20,31 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.message);
       });
   };
 
   return (
     <div className="h-[800px] flex justify-center items-center">
       <div className="w-96 p-8">
-        <h2 className="text-xl text-center">Login</h2>
-        <form onSubmit={handleSubmit(handleLogin)}>
+        <h2 className="text-xl text-center">Sign Up</h2>
+        <form onSubmit={handleSubmit(handleSignUp)}>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Name</span>
+            </label>
+            <input
+              type="text"
+              {...register("name", { required: "Name Address is required!" })}
+              className="input input-bordered w-full max-w-xs"
+            />
+            {errors.name && (
+              <p role="alert" className="pt-2 pl-1 text-red-400">
+                {errors.name?.message}
+              </p>
+            )}
+          </div>
+
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">Email</span>
@@ -45,7 +61,7 @@ const Login = () => {
             )}
           </div>
 
-          <div className="form-control w-full max-w-xs">
+          <div className="form-control w-full max-w-xs pb-3">
             <label className="label">
               <span className="label-text">Password</span>
             </label>
@@ -65,21 +81,18 @@ const Login = () => {
                 {errors.password?.message}
               </p>
             )}
-            <label className="label">
-              <span className="label-text">Forget Password?</span>
-            </label>
           </div>
 
           <input
             className="btn btn-accent w-full"
-            value="login"
+            value="signup"
             type="submit"
           />
         </form>
         <p className="text-gray-500 text-center">
-          New To Here?{" "}
-          <Link className="text-gray-800 underline" to="/signup">
-            Register Here
+          Already have an account?{" "}
+          <Link className="text-gray-800 underline" to="/login">
+            Login Here
           </Link>
         </p>
       </div>
@@ -87,4 +100,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
