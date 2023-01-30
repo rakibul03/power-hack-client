@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthProvider";
 
-const BillingsUI = ({ bill, setUpdateBill }) => {
-  const { email, name, payable, phone } = bill;
+const BillingsUI = ({ bill, setUpdateBill, handleDelete }) => {
+  const { loading } = useContext(AuthContext);
+  const { _id, email, name, payable, phone } = bill;
+
   return (
     <tr>
-      <td>Cy Ganderton</td>
+      <td>{loading ? "Generating token..." : _id}</td>
       <td>{name}</td>
       <td>{email}</td>
       <td>{phone}</td>
@@ -18,9 +21,8 @@ const BillingsUI = ({ bill, setUpdateBill }) => {
           Edit
         </label>
         <label
-          htmlFor="edit-bill-modal"
           className="cursor-pointer pl-2"
-          onClick={() => setUpdateBill(bill)}
+          onClick={() => handleDelete(_id)}
         >
           Delete
         </label>

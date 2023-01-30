@@ -1,16 +1,39 @@
 import React from "react";
+import { toast } from "react-toastify";
 
-const EditBillModal = ({ updateBill }) => {
-  const { name, email, payable, phone } = updateBill;
-  console.log(updateBill);
-  const handleBilling = (e) => {
+const EditBillModal = ({ updateBill, setUpdateBill, refresh, setRefresh }) => {
+  const { _id, name, email, payable, phone } = updateBill;
+
+  const handleUpdate = (e) => {
     e.preventDefault();
 
     const fullName = e.target.billerName.value;
     const email = e.target.email.value;
     const phone = e.target.phone.value;
     const payable = e.target.payAmount.value;
-    console.log(fullName, email, phone, payable);
+
+    const updateBilling = {
+      name: fullName,
+      email: email,
+      phone: phone,
+      payable: payable,
+    };
+
+    fetch(`https://projects-ph-server.vercel.app/update-billing?id=${_id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ updateBilling }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          setUpdateBill(null);
+          toast.success("Billing update successfully");
+          setRefresh(!refresh);
+        }
+      });
   };
 
   return (
@@ -24,7 +47,7 @@ const EditBillModal = ({ updateBill }) => {
           >
             ✕
           </label>
-          <form onSubmit={handleBilling} className="grid dris-cols-1 gap-3">
+          <form onSubmit={handleUpdate} className="grid dris-cols-1 gap-3">
             <input
               placeholder="Full Name"
               name="billerName"

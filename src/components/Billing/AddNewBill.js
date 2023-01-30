@@ -1,7 +1,7 @@
 import React from "react";
 import AddBillModal from "../Modal/AddBillModal";
 
-const AddNewBill = () => {
+const AddNewBill = ({ setRefresh, refresh, setUpdateBill }) => {
   return (
     <div className="mt-12 px-6">
       <div className="flex justify-between gap-10 items-center space-x-16 py-2 bg-gray-300 mb-6 px-8">
@@ -19,7 +19,7 @@ const AddNewBill = () => {
             Add New Bill
           </label>
         </div>
-        <AddBillModal />
+        <AddBillModal setRefresh={setRefresh} refresh={refresh} />
       </div>
     </div>
   );

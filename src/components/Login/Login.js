@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Login = () => {
   } = useForm();
 
   const handleLogin = (data) => {
-    fetch("http://localhost:5000/login", {
+    fetch("https://projects-ph-server.vercel.app/login", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -24,7 +25,9 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.token) {
+          console.log(data.token);
           localStorage.setItem("token", data.token);
+          toast.success("Login Successfull");
           navigate(from, { replace: true });
         }
       });

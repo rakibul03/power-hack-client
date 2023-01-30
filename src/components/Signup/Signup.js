@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const {
@@ -10,8 +11,7 @@ const Signup = () => {
   } = useForm();
 
   const handleSignUp = (data) => {
-    console.log(data);
-    fetch("http://localhost:5000/registration", {
+    fetch("https://projects-ph-server.vercel.app/registration", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -20,7 +20,7 @@ const Signup = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.message);
+        toast.success(data.message);
       });
   };
 
